@@ -1,0 +1,117 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 2000px;
+            height: 1800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "group": 6, "id": 0, "label": "Area crime level", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 13, "label": "Mental health (more is better)", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 1, "label": "Bullying", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 8, "label": "Loneliness", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 10, "label": "Education", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 2, "label": "Early childhood education and care", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 3, "label": "Family interventions", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 39, "label": "Neurodevelopmental conditions", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 40, "label": "Parent criminal conviction", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 20, "label": "Parent Separation", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 21, "label": "Parent substance use", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 44, "label": "Unemployment", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 18, "label": "Parent Mental health (more is better)", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 4, "label": "Financial counselling", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 45, "label": "Youth debt problems", "shape": "dot", "size": 15}, {"color": "orchid", "group": 5, "id": 5, "label": "Future orientation", "shape": "dot", "size": 15}, {"color": "orchid", "group": 5, "id": 37, "label": "Lack of agency", "shape": "dot", "size": 15}, {"color": "purple", "group": 0, "id": 9, "label": "Long-term social assistance use (2yr+)", "shape": "dot", "size": 40}, {"color": "orchid", "group": 5, "id": 6, "label": "Lack of belonging", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 7, "label": "Local unemployment rate", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 35, "label": "Youth employment", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 22, "label": "Parent unemployment", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 46, "label": "Access to services", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 49, "label": "Employment offices", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 14, "label": "Mental health services", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 48, "label": "Lack of employment opportunities", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 11, "label": "Low quality of housing", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 31, "label": "Structural stigma", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 12, "label": "Low threshold services", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 33, "label": "Substance abuse", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 15, "label": "Parent debt problems", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 16, "label": "Parent education (more is higher education)", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 17, "label": "Parent income (monthly)", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 47, "label": "Disability pension", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 23, "label": "Parent wealth (long-term)", "shape": "dot", "size": 15}, {"color": "orchid", "group": 5, "id": 25, "label": "Pastime activities", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 19, "label": "Parent physical health (more is better)", "shape": "dot", "size": 15}, {"color": "orchid", "group": 5, "id": 24, "label": "Participation in social activities", "shape": "dot", "size": 15}, {"color": "orchid", "group": 5, "id": 27, "label": "Positive attitudes towards employment", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 36, "label": "Anxiety", "shape": "dot", "size": 15}, {"color": "salmon", "group": 3, "id": 26, "label": "Physical health (more is better)", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 28, "label": "Social rehabilitation", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 29, "label": "Specialed support", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 30, "label": "Structural racism", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 32, "label": "Student counselling", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 34, "label": "Unemployment benefits", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 42, "label": "Student financial aid", "shape": "dot", "size": 15}, {"color": "blue", "group": 6, "id": 38, "label": "Lack of relevant educational opportunities", "shape": "dot", "size": 15}, {"color": "lemonchiffon", "group": 2, "id": 50, "label": "Special needs support", "shape": "dot", "size": 15}, {"color": "lightblue", "group": 1, "id": 41, "label": "Poverty in childhood", "shape": "dot", "size": 15}, {"color": "lightgreen", "group": 4, "id": 43, "label": "Housing aid", "shape": "dot", "size": 15}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 1, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 1, "label": 1, "polarity": 1, "to": 8, "weight": 1}, {"arrows": "to", "from": 1, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 2, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 2, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": -1, "to": 39, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": -1, "to": 40, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": -1, "to": 20, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": -1, "to": 21, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": -1, "to": 44, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 3, "label": 1, "polarity": 1, "to": 18, "weight": 1}, {"arrows": "to", "from": 4, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 5, "label": 1, "polarity": -1, "to": 37, "weight": 1}, {"arrows": "to", "from": 5, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 5, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 6, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 6, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 7, "label": 1, "polarity": -1, "to": 5, "weight": 1}, {"arrows": "to", "from": 7, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 7, "label": 1, "polarity": -1, "to": 35, "weight": 1}, {"arrows": "to", "from": 7, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 7, "label": 1, "polarity": 1, "to": 22, "weight": 1}, {"arrows": "to", "from": 8, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 8, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 9, "label": 1, "polarity": -1, "to": 46, "weight": 1}, {"arrows": "to", "from": 9, "label": 1, "polarity": 1, "to": 49, "weight": 1}, {"arrows": "to", "from": 9, "label": 1, "polarity": 1, "to": 8, "weight": 1}, {"arrows": "to", "from": 9, "label": 1, "polarity": 1, "to": 14, "weight": 1}, {"arrows": "to", "from": 10, "label": 1, "polarity": -1, "to": 35, "weight": 1}, {"arrows": "to", "from": 10, "label": 1, "polarity": -1, "to": 48, "weight": 1}, {"arrows": "to", "from": 10, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 10, "label": 1, "polarity": -1, "to": 44, "weight": 1}, {"arrows": "to", "from": 10, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 11, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 11, "label": 1, "polarity": 1, "to": 31, "weight": 1}, {"arrows": "to", "from": 12, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 12, "label": 1, "polarity": -1, "to": 18, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": -1, "to": 1, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": -1, "to": 33, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": 1, "to": 5, "weight": 1}, {"arrows": "to", "from": 13, "label": 1, "polarity": 1, "to": 12, "weight": 1}, {"arrows": "to", "from": 14, "label": 1, "polarity": -1, "to": 33, "weight": 1}, {"arrows": "to", "from": 14, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 14, "label": 1, "polarity": 1, "to": 18, "weight": 1}, {"arrows": "to", "from": 14, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": -1, "to": 16, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": -1, "to": 17, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": -1, "to": 18, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": 1, "to": 21, "weight": 1}, {"arrows": "to", "from": 15, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 47, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 20, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 21, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 22, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 2, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 17, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 23, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 25, "weight": 1}, {"arrows": "to", "from": 16, "label": 1, "polarity": 1, "to": 18, "weight": 1}, {"arrows": "to", "from": 17, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 17, "label": 1, "polarity": -1, "to": 20, "weight": 1}, {"arrows": "to", "from": 17, "label": 1, "polarity": 1, "to": 23, "weight": 1}, {"arrows": "to", "from": 17, "label": 1, "polarity": 1, "to": 25, "weight": 1}, {"arrows": "to", "from": 18, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 18, "label": 1, "polarity": -1, "to": 21, "weight": 1}, {"arrows": "to", "from": 18, "label": 1, "polarity": -1, "to": 22, "weight": 1}, {"arrows": "to", "from": 18, "label": 1, "polarity": -1, "to": 31, "weight": 1}, {"arrows": "to", "from": 18, "label": 1, "polarity": 1, "to": 16, "weight": 1}, {"arrows": "to", "from": 19, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 19, "label": 1, "polarity": -1, "to": 22, "weight": 1}, {"arrows": "to", "from": 19, "label": 1, "polarity": 1, "to": 16, "weight": 1}, {"arrows": "to", "from": 19, "label": 1, "polarity": 1, "to": 17, "weight": 1}, {"arrows": "to", "from": 19, "label": 1, "polarity": 1, "to": 18, "weight": 1}, {"arrows": "to", "from": 20, "label": 1, "polarity": -1, "to": 23, "weight": 1}, {"arrows": "to", "from": 20, "label": 1, "polarity": 1, "to": 15, "weight": 1}, {"arrows": "to", "from": 21, "label": 1, "polarity": -1, "to": 16, "weight": 1}, {"arrows": "to", "from": 21, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 21, "label": 1, "polarity": 1, "to": 22, "weight": 1}, {"arrows": "to", "from": 21, "label": 1, "polarity": 1, "to": 33, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": -1, "to": 5, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": -1, "to": 17, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": -1, "to": 18, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": 1, "to": 37, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": 1, "to": 31, "weight": 1}, {"arrows": "to", "from": 22, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 23, "label": 1, "polarity": -1, "to": 47, "weight": 1}, {"arrows": "to", "from": 23, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 23, "label": 1, "polarity": -1, "to": 31, "weight": 1}, {"arrows": "to", "from": 23, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 23, "label": 1, "polarity": 1, "to": 25, "weight": 1}, {"arrows": "to", "from": 24, "label": 1, "polarity": -1, "to": 37, "weight": 1}, {"arrows": "to", "from": 24, "label": 1, "polarity": 1, "to": 5, "weight": 1}, {"arrows": "to", "from": 24, "label": 1, "polarity": 1, "to": 27, "weight": 1}, {"arrows": "to", "from": 25, "label": 1, "polarity": -1, "to": 36, "weight": 1}, {"arrows": "to", "from": 25, "label": 1, "polarity": -1, "to": 39, "weight": 1}, {"arrows": "to", "from": 25, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 26, "label": 1, "polarity": -1, "to": 47, "weight": 1}, {"arrows": "to", "from": 26, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 26, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 26, "label": 1, "polarity": -1, "to": 31, "weight": 1}, {"arrows": "to", "from": 26, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 27, "label": 1, "polarity": -1, "to": 37, "weight": 1}, {"arrows": "to", "from": 27, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": -1, "to": 11, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": 1, "to": 13, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": 1, "to": 24, "weight": 1}, {"arrows": "to", "from": 28, "label": 1, "polarity": 1, "to": 35, "weight": 1}, {"arrows": "to", "from": 29, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 30, "label": 1, "polarity": -1, "to": 35, "weight": 1}, {"arrows": "to", "from": 30, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": -1, "to": 5, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": -1, "to": 32, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": -1, "to": 35, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 31, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 32, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 32, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 33, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 33, "label": 1, "polarity": 1, "to": 37, "weight": 1}, {"arrows": "to", "from": 33, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 33, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 34, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 35, "label": 1, "polarity": -1, "to": 9, "weight": 1}, {"arrows": "to", "from": 35, "label": 1, "polarity": -1, "to": 42, "weight": 1}, {"arrows": "to", "from": 35, "label": 1, "polarity": -1, "to": 34, "weight": 1}, {"arrows": "to", "from": 35, "label": 1, "polarity": -1, "to": 45, "weight": 1}, {"arrows": "to", "from": 36, "label": 1, "polarity": 1, "to": 18, "weight": 1}, {"arrows": "to", "from": 37, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 38, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 38, "label": 1, "polarity": -1, "to": 10, "weight": 1}, {"arrows": "to", "from": 39, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 39, "label": 1, "polarity": 1, "to": 46, "weight": 1}, {"arrows": "to", "from": 39, "label": 1, "polarity": 1, "to": 1, "weight": 1}, {"arrows": "to", "from": 39, "label": 1, "polarity": -1, "to": 13, "weight": 1}, {"arrows": "to", "from": 39, "label": 1, "polarity": 1, "to": 50, "weight": 1}, {"arrows": "to", "from": 40, "label": 1, "polarity": 1, "to": 37, "weight": 1}, {"arrows": "to", "from": 40, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 41, "label": 1, "polarity": 1, "to": 9, "weight": 1}, {"arrows": "to", "from": 42, "label": 1, "polarity": 1, "to": 10, "weight": 1}, {"arrows": "to", "from": 43, "label": 1, "polarity": 1, "to": 9, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": false
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
